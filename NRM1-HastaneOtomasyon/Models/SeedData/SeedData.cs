@@ -15,7 +15,7 @@ namespace NRM1_HastaneOtomasyon.Models.SeedData
 			dbContext.Database.Migrate();
 			if (dbContext.Admins.Count()==0)
 			{
-				dbContext.Admins.Add(new Admin()
+				dbContext.Admins.Add(new User()
 				{
 					Id=Guid.NewGuid(),
 					Name="ramazan",
@@ -24,7 +24,26 @@ namespace NRM1_HastaneOtomasyon.Models.SeedData
 					Status=Status.Active,
 					Password="1234",
 					CreatedDate=DateTime.Now,
+					Roles=Roles.Admin,
 				});
+
+			}
+			if (dbContext.Employees.Count() == 0)
+			{
+				dbContext.Employees.Add(new Employee()
+				{
+					Id = Guid.NewGuid(),
+					Name = "fatih",
+					Surname = "bag",
+					EmailAddress = "fatih96@gmail.com",
+					Status = Status.Active,
+					Password = "1234",
+					Salary=150000,
+					IdentityNumber="4145412",
+					CreatedDate = DateTime.Now,
+					Roles = Roles.Manager,
+				});
+
 			}
 			dbContext.SaveChanges();
 		}

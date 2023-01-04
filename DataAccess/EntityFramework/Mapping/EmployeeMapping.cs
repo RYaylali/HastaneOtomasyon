@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Hastane.DataAccess.EntityFramework.Mapping
 {
-	public class PersonnelMapping:BaseEntityTypeConfig<Personnel>
+	public class EmployeeMapping:BaseEntityTypeConfig<Employee>
 	{
-		public override void Configure(EntityTypeBuilder<Personnel> builder)
+		public override void Configure(EntityTypeBuilder<Employee> builder)
 		{
 			builder.HasKey(x => x.Id);
-			builder.Property(x => x.Id).IsRequired();
+			builder.Property(x => x.Id).IsRequired(true);
+
 			base.Configure(builder);
 		}
 	}

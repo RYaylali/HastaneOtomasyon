@@ -15,15 +15,15 @@ namespace DataAccess.EntityFramework.Context
 		{
 
 		}
-		public DbSet<Manager> Managers { get; set; }
-		public DbSet<Personnel> Personnels { get; set; }
-		public DbSet<Admin> Admins { get; set; }
+	
+		public DbSet<User> Admins { get; set; }
+		public DbSet<Employee> Employees { get; set; }		
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.ApplyConfiguration(new AdminMapping())
-				.ApplyConfiguration(new ManagerMapping())
-				.ApplyConfiguration(new PersonnelMapping());
+				.ApplyConfiguration(new EmployeeMapping());
+				
 			base.OnModelCreating(modelBuilder);
 		}
 	}

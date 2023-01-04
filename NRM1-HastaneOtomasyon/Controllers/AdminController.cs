@@ -1,19 +1,23 @@
 ﻿using DataAccess.Abstract;
+using Hastane.Business.Models.DTOs;
+using Hastane.Business.Services.AdminService;
+using Hastane.DataAccess.Abstract;
 using Hastane.Entities.Concrete;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NRM1_HastaneOtomasyon.Models;
-using NRM1_HastaneOtomasyon.Models.DTOs;
-using NRM1_HastaneOtomasyon.Models.VMs;
+
 
 namespace NRM1_HastaneOtomasyon.Controllers
 {
+	[Authorize(Roles ="Admin")]
 	public class AdminController : Controller
 	{
-		private readonly ImanagerRepo _managerRepo;
-		public AdminController(ImanagerRepo managerRepo)
+		private readonly IAdminService _adminService;
+		public AdminController(IAdminService adminService)
 		{
-			_managerRepo = managerRepo;
+			_adminService = adminService;
 		}
 		public IActionResult Index()
 		{
@@ -35,30 +39,23 @@ namespace NRM1_HastaneOtomasyon.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddManager(AddManagerDTO addManagerDTO)
 		{
-			Manager manager = new Manager();
+			
 			if (ModelState.IsValid)
 			{
-				manager.Id= addManagerDTO.Id;
-				manager.Name= addManagerDTO.Name;
-				manager.Surname=addManagerDTO.Surname;
-				manager.Salary=addManagerDTO.Salary;
-				manager.EmailAddress=addManagerDTO.EmailAddress;
-				manager.Status=addManagerDTO.Status;
-				manager.CreatedDate=addManagerDTO.CreatedDate;
-				manager.Password = GivePassword();
-				await _managerRepo.Add(manager);
+				await _adminService.AddManager(addManagerDTO);
 				return RedirectToAction("ListOfManagers");
 			}
-
 			return View(addManagerDTO);
 		}
 
+		//	return View(addManagerDTO);
+		//}
+
 		public async Task<IActionResult> ListOfManagers()
 		{
-			var managerList=await _managerRepo.GetAll();
-			ListOfManagerVM listOfManagerVM= new ListOfManagerVM();
-			listOfManagerVM.Managers=managerList;
-			return View(listOfManagerVM);
+		
+			var managers=await _adminService.ListOfManager();
+			return View(managers);
 		}
 
 		//    [HttpGet]

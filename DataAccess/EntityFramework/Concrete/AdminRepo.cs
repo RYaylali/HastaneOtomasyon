@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace DataAccess.EntityFramework.Concrete
 {
-	public class AdminRepo : BaseRepo<Admin>, IAdminRepo
+	public class AdminRepo : BaseRepo<User>, IAdminRepo
 	{
 		public AdminRepo(HastaneDbContext hastaneDbContext) : base(hastaneDbContext)
 		{
 		}
-		public async Task<Admin> GetByEmail(string email, string password)
+		public async Task<User> GetByEmail(string email, string password)
 		{
 			var admin=await _table.Where(x=>x.EmailAddress==email&& x.Password==password).FirstOrDefaultAsync();
 			return admin;

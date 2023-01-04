@@ -1,8 +1,8 @@
-﻿@model NRM1_HastaneOtomasyon.Models.VMs.ListOfManagerVM
+﻿@model List<ListOfManagerVM>
 
 @{
 	ViewData["Title"] = "ListOfManagers";
-	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+	Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
 <h1>ListOfManagers</h1>
@@ -23,18 +23,21 @@
 				EmailAddress
 			</th>
 			<th>
-				Password
+				Salary
+			</th>
+			@*		<th>
+			Password
 			</th>
 			<th>
-				Status
-			</th>
+			Status
+			</th>*@
 			<th>
 				Function
 			</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model.Managers)
+		@foreach (var item in Model)
 		{
 			<tr>
 				<td>
@@ -46,16 +49,17 @@
 				<td>
 					@item.EmailAddress
 				</td>
+				@*	<td>
+			@item.Password
+			</td>*@
 				<td>
-					@item.Password
+					@item.Salary
 				</td>
-				<td>
-					@item.Status
-				</td>
-				<td>
-					<a class="btn btn-success" asp-action="UpdatedManager" asp-route-id="@item.Id">Update</a>
-					<a class="btn btn-danger" asp-action="DeletedManager" asp-route-id="@item.Id">Delete</a>
-				</td>
+					<td>
+			<a class="btn btn-success" 
+			asp-area="Admin" asp-controller="Manager" asp-action="UpdateManager" asp-route-id="@item.Id">Update</a>
+			@*<a class="btn btn-danger" asp-action="DeletedManager" asp-route-id="@item.Id">Delete</a>*@
+			</td>
 			</tr>
 		}
 	</tbody>

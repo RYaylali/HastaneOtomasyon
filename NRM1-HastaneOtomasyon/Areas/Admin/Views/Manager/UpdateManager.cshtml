@@ -1,17 +1,17 @@
-﻿@model NRM1_HastaneOtomasyon.Models.DTOs.AddManagerDTO
+﻿@model UpdateManagerDto
 
 @{
-    ViewData["Title"] = "AddManager";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "UpdateManager";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>AddManager</h1>
+<h1>UpdatedManager</h1>
 
 <h4>Manager</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="AddManager">
+        <form asp-action="UpdateManager" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -35,7 +35,12 @@
                 <span asp-validation-for="Salary" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="IdentityNumber" class="control-label"></label>
+                <input asp-for="IdentityNumber" class="form-control" />
+                <span asp-validation-for="IdentityNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

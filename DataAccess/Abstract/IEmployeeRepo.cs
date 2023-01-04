@@ -6,10 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess.Abstract
+namespace Hastane.DataAccess.Abstract
 {
-	public interface ImanagerRepo:IBaseRepo<Manager>
+	public interface IEmployeeRepo:IBaseRepo<Employee>
 	{
-		Task<Manager> GetByEmail(string email, string password);
 	}
 }

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Abstract
 {
-	public interface IAdminRepo:IBaseRepo<Admin>
+	public interface IAdminRepo:IBaseRepo<User>
 	{
-		Task<Admin> GetByEmail(string email, string password);
+		Task<User> GetByEmail(string email, string password);
 	}
 }

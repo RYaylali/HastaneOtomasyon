@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Hastane.DataAccess.EntityFramework.Mapping
 {
-	public class AdminMapping:BaseEntityTypeConfig<Admin>
+	public class AdminMapping:BaseEntityTypeConfig<User>
 	{
-		public override void Configure(EntityTypeBuilder<Admin> builder)
+		public override void Configure(EntityTypeBuilder<User> builder)
 		{
 			builder.HasKey(x => x.Id);
 			builder.Property(x => x.Id).IsRequired(true);

@@ -1,6 +1,11 @@
 ﻿using Hastane.Core.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NRM1_HastaneOtomasyon.Models.DTOs
+namespace Hastane.Business.Models.DTOs
 {
 	public class AddManagerDTO
 	{
@@ -11,5 +16,6 @@ namespace NRM1_HastaneOtomasyon.Models.DTOs
 		public Status Status { get; set; } = Status.Active;
 		public decimal Salary { get; set; }
 		public DateTime CreatedDate { get; set; } = DateTime.Now;
+		public Roles Role { get; set; } = Roles.Manager;
 	}
 }

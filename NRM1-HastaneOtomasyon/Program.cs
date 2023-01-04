@@ -1,6 +1,12 @@
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using DataAccess.Abstract;
 using DataAccess.EntityFramework.Concrete;
 using DataAccess.EntityFramework.Context;
+using Hastane.Business.IoC;
+using Hastane.DataAccess.Abstract;
+using Hastane.DataAccess.EntityFramework.Concrete;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using NRM1_HastaneOtomasyon.Models.SeedData;
 
@@ -12,9 +18,35 @@ builder.Services.AddDbContext<HastaneDbContext>(_ =>
 {
 	_.UseSqlServer(builder.Configuration.GetConnectionString("HastaneConnectionStiring"));
 });
-builder.Services.AddScoped<IAdminRepo, AdminRepo>();
-builder.Services.AddScoped<ImanagerRepo, ManagerRepo>();
-builder.Services.AddScoped<IPersonnelRepo, PersonnelRepo>();
+//JWTOKEN-IDENTITY KUTUPHANESÝ
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+{
+	x.LoginPath = "/Login/Login";
+	x.AccessDeniedPath = "/Home/Error";
+	x.Cookie = new CookieBuilder
+	{
+		Name = "NRM1Cookie",
+		SecurePolicy = CookieSecurePolicy.Always, // Http istekleri tarafýndan eriþilebilir yaptýk
+		HttpOnly = true, // Client-Side tarafýndan cookie'nin eriþilebilir olmasýný saðlýyoruz. DÝKKAT !!!! : Sen kendin yayýnlayacaðýn bir site yazarken Bunu False olarak iþaretliyorsun. Kötü kiþiler client side tarafýndaki bütün olaylara hakim olabildiði için senin sistemini buradan patlatabilir.
+	};
+	x.ExpireTimeSpan=TimeSpan.FromMinutes(1);
+	x.SlidingExpiration = true;//istek gelirse cookie nin süresi uzatýlacak
+	x.Cookie.MaxAge = x.ExpireTimeSpan;
+});
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+builder.Host.ConfigureContainer<ContainerBuilder>(builder =>
+{
+    builder.RegisterModule(new DependecyResolver());
+});
+
+
+
+//authentication--> giriþ yapabilion mu sen bu sisteme kayýtlý mýsýn
+//authorization bir iþlem yapmak için yetkisi var mý yok mu
+
+//builder.Services.AddScoped<IAdminRepo, AdminRepo>();
+//builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
+
 //builder.Services.AddDbContext
 
 //builder.Services.AddSession(options => {
@@ -33,7 +65,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 //app.UseSession();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
+//areas ýn üzerinde olacak hep
+app.MapControllerRoute(
+  name: "areas",
+  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+);
 app.MapControllerRoute(
 	name: "default",
 	pattern: "{controller=Login}/{action=Login}/{id?}");
